@@ -326,7 +326,10 @@ export default {
       const nextInnerValue = this.normalizedOptions[nextInnerIndex] && this.normalizedOptions[nextInnerIndex].value || null
       this.top = this.findScrollByIndex(nextInnerIndex)
 
-      this.transitioning = true
+      const innerName = this.normalizedOptions[this.innerIndex] && this.normalizedOptions[this.innerIndex].name || null
+      const nextInnerName = this.normalizedOptions[nextInnerIndex] && this.normalizedOptions[nextInnerIndex].name || null
+
+      this.transitioning = innerName !== nextInnerName
       if (this.transitionTO) {
         clearTimeout(this.transitionTO)
         this.transitionTO = null
