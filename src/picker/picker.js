@@ -266,6 +266,7 @@ export default {
         this.isMouseDown = true
       }
       this.isDragging = false
+      this.$emit('start')
     },
     onMove(e) {
       if (e.cancelable) {
@@ -280,6 +281,10 @@ export default {
         this.isDragging = true
       }
       this.top = this.start[0] + diff * (isTouchEvent(e) ? this.touchSensitivity : this.dragSensitivity)
+      const currentIndex = this.findIndexFromScroll(this.top);
+      const nextInnerIndex = this.sanitizeInternalIndex(currentIndex)
+      const nextInnerValue = this.normalizedOptions[nextInnerIndex] && this.normalizedOptions[nextInnerIndex].value || null
+      this.$emit('move', nextInnerValue);
     },
     onEnd(e) {
       if (e.cancelable) {
@@ -293,6 +298,7 @@ export default {
       this.start = null
       this.isDragging = false
       this.isMouseDown = false
+      this.$emit('end')
     },
     onCancel(e) {
       if (e.cancelable) {
